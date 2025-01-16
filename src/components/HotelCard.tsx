@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Star, MapPin } from "lucide-react";
 import { Button } from './ui/button';
 
-function HotelCard(props) {
+function HotelCard(props: any) {
 
     const [num, setNum] = useState(1);
 

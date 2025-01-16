@@ -99,7 +99,7 @@ function HotelListings() {
 
     const [selectedLocation, setSelectedLocation] = useState("ALL");
 
-    const handleSelectLocation = (location) => {
+    const handleSelectLocation = (location: any) => {
         setSelectedLocation(location);
     }
 

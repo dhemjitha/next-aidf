@@ -1,6 +1,6 @@
 import React from 'react'
 
-function LocationTab(props) {
+function LocationTab(props: any) {
 
     const handleClick = () => {
         props.onClick(props.name) // Pass the name of the location to the parent component
