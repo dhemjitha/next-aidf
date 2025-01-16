@@ -3,6 +3,9 @@
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import Greeting from './Greeting'
+import Navigation from '@/components/Navigation'
+import Hero from '@/components/Hero'
+import HotelListings from '@/components/HotelListings'
 
 function page() {
 
@@ -15,9 +18,9 @@ function page() {
 
   return (
     <>
-    <h1 className="text-2xl text-red-500 font-bold">Hello World</h1>
-    <Greeting name={name} age={age} />
-    <Button onClick={handleClick}>Click me</Button>
+    <Navigation/>
+    <Hero/>
+    <HotelListings/>
     </>
   )
 }
