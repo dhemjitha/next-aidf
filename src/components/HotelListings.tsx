@@ -48,7 +48,7 @@ function HotelListings() {
     })
 
     return (
-        <section className="px-8 py-8 lg:py-16">
+        <section className="px-5 py-6 lg:py-16">
             <div className="mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
                     Top trending hotels worldwide
@@ -60,7 +60,7 @@ function HotelListings() {
                 </p>
             </div>
 
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center lg:gap-x-2 gap-x-1.5">
                 {
                     locations.map((location) => {
                         return <LocationTab key={location} selectedLocation={selectedLocation} name={location} onClick={handleSelectLocation}/>
