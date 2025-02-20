@@ -1,21 +1,14 @@
 import React, { useState } from 'react'
 import { Star, MapPin } from "lucide-react";
 import { Button } from './ui/button';
+import Link from 'next/link';
 
 function HotelCard(props: any) {
 
-    const [num, setNum] = useState(1);
-
-    const handleClick = () => {
-        setNum(num =>num + 1);
-        setNum(num =>num + 1);
-        setNum(num =>num + 1);
-        console.log(num)
-    }
-
     return (
-        <div
-            // to={`/hotel/${props.hotel._id}`}
+        
+        <Link
+            href={`/hotel/${props.hotel._id}`}
             key={props.hotel._id}
             className="block group relative"
         >
@@ -45,13 +38,7 @@ function HotelCard(props: any) {
                 </div>
             </div>
 
-            <div className="mt-4">
-                <p>{num}</p>
-                <Button onClick={handleClick}>Click</Button>
-            </div>
-
-
-        </div>
+        </Link>
     )
 }
 
