@@ -63,7 +63,7 @@ function HotelListings() {
             <div className="flex items-center gap-x-2">
                 {
                     locations.map((location) => {
-                        return <LocationTab selectedLocation={selectedLocation} name={location} onClick={handleSelectLocation}/>
+                        return <LocationTab key={location} selectedLocation={selectedLocation} name={location} onClick={handleSelectLocation}/>
                     })
                 }
             </div>

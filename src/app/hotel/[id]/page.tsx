@@ -2,13 +2,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Coffee,
-  MapPin,
-  MenuIcon as Restaurant,
-  Star,
-  Tv,
-  Wifi,
+    Coffee,
+    MapPin,
+    MenuIcon as Restaurant,
+    Star,
+    Tv,
+    Wifi,
 } from "lucide-react";
+import Image from "next/image";
 
 interface Hotel {
     id: string;
@@ -53,18 +54,21 @@ export default async function HotelPage({ params }: PageProps) {
     try {
         const { id } = params;
         const hotel = await getHotel(id);
-        
+
         return (
             <div className="container mx-auto px-4 py-8">
                 <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-4">
                         <div className="relative w-full h-[400px]">
-                            <img
+                            <Image
+                                width={1920}
+                                height={1080}
                                 src={hotel.image}
                                 alt={hotel.name}
                                 className="absolute object-cover rounded-lg"
                             />
                         </div>
+                        <br /><br />
                         <div className="flex space-x-2">
                             <Badge variant="secondary">Rooftop View</Badge>
                             <Badge variant="secondary">French Cuisine</Badge>

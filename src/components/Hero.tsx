@@ -2,6 +2,7 @@ import React from 'react'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { Sparkles } from 'lucide-react'
+import Image from 'next/image'
 
 function Hero() {
     return (
@@ -12,7 +13,7 @@ function Hero() {
                     Find Your Best Staycation
                 </h1>
                 <p className="text-xl mb-12 text-center max-w-2xl">
-                    Describe your dream destination and experience, and we'll find the
+                    Describe your dream destination and experience, and we&apos;ll find the
                     perfect place for you.
                 </p>
 
@@ -37,7 +38,9 @@ function Hero() {
             </div>
 
             {/* Hero Image */}
-            <img
+            <Image
+                width={1920}
+                height={1080}
                 src="/assets/hero/hero_1.jpg"
                 alt=""
                 className="absolute top-0 left-0 w-full h-full object-cover -z-10"

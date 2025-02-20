@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import { Star, MapPin } from "lucide-react";
-import { Button } from './ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
 
 function HotelCard(props: any) {
 
     return (
-        
+
         <Link
             href={`/hotel/${props.hotel._id}`}
             key={props.hotel._id}
             className="block group relative"
         >
             <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                <img
+                <Image
+                    width={1920}
+                    height={1080}
                     src={props.hotel.image}
                     alt={props.hotel.name}
                     className="object-cover w-full h-full absolute transition-transform group-hover:scale-105"
