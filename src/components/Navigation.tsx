@@ -62,23 +62,23 @@ function Navigation() {
             {/* Mobile Menu */}
             {isOpen && (
                 <div className="lg:hidden absolute top-16 left-0 right-0 flex flex-col bg-black p-4 z-50">
-                    <Link href="/" onClick={toggleMenu} className="hover:text-gray-400 flex items-center justify-center py-4">
+                    <Link href="/" onClick={toggleMenu} className="hover:text-gray-400 flex items-center justify-center py-3">
                         Home
                     </Link>
 
-                    <Link href="/hotels" onClick={toggleMenu} className="hover:text-gray-400 flex items-center justify-center py-4">
+                    <Link href="/hotels" onClick={toggleMenu} className="hover:text-gray-400 flex items-center justify-center py-3 mb-2">
                         Hotels
                     </Link>
 
-                    <Button variant="ghost">
+                    <Button variant="ghost" className="mb-3" onClick={toggleMenu}>
                         <Globe className="h-5 w-5 mr-2" />
                         EN
                     </Button>
                     <SignedOut>
-                        <Button variant="ghost" asChild>
+                        <Button variant="ghost" asChild className="mb-3" onClick={toggleMenu}>
                             <Link href="/sign-in">Log In</Link>
                         </Button>
-                        <Button asChild>
+                        <Button asChild onClick={toggleMenu}>
                             <Link href="/sign-up">Sign Up</Link>
                         </Button>
                     </SignedOut>
