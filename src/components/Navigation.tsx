@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { Globe, Menu, X } from 'lucide-react'
 import Link from 'next/link'
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+
 
 function Navigation() {
     const [isOpen, setIsOpen] = useState(false);
@@ -43,12 +45,18 @@ function Navigation() {
                     <Globe className="h-5 w-5 mr-2" />
                     EN
                 </Button>
-                <Button variant="ghost">
-                    <Link href="/sign-in">Log In</Link>
-                </Button>
-                <Button>
-                    <Link href="/sign-up">Sign Up</Link>
-                </Button>
+                <SignedOut>
+                    <Button variant="ghost" asChild>
+                        <Link href="/sign-in">Log In</Link>
+                    </Button>
+                    <Button asChild>
+                        <Link href="/sign-up">Sign Up</Link>
+                    </Button>
+                </SignedOut>
+                <SignedIn>
+                    <UserButton />
+                </SignedIn>
+
             </div>
 
             {/* Mobile Menu */}
@@ -61,17 +69,22 @@ function Navigation() {
                     <Link href="/hotels" onClick={toggleMenu} className="hover:text-gray-400 flex items-center justify-center py-4">
                         Hotels
                     </Link>
-                    
+
                     <Button variant="ghost">
                         <Globe className="h-5 w-5 mr-2" />
                         EN
                     </Button>
-                    <Button variant="ghost">
-                        <Link href="/sign-in">Log In</Link>
-                    </Button>
-                    <Button>
-                        <Link href="/sign-up">Sign Up</Link>
-                    </Button>
+                    <SignedOut>
+                        <Button variant="ghost" asChild>
+                            <Link href="/sign-in">Log In</Link>
+                        </Button>
+                        <Button asChild>
+                            <Link href="/sign-up">Sign Up</Link>
+                        </Button>
+                    </SignedOut>
+                    <SignedIn>
+                        <UserButton />
+                    </SignedIn>
                 </div>
             )}
         </nav>
