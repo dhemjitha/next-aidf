@@ -13,13 +13,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
   return (
-    <ClerkProvider>
-    <html lang="en">
-      <body className={inter.className}>
-        <Navigation/>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider appearance={{
+      layout: {
+        unsafe_disableDevelopmentModeWarnings: true,
+      },
+    }}>
+      <html lang="en">
+        <body className={inter.className}>
+          <Navigation />
+          {children}
+        </body>
+      </html>
     </ClerkProvider>
   );
 }
