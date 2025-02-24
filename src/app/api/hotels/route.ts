@@ -15,3 +15,21 @@ export async function GET() {
         );
     }
 }
+
+export async function POST(request: Request) {
+    try {
+        await connectDB();
+        const body = await request.json();
+        
+        const hotel = new Hotel(body);
+        await hotel.save();
+
+        return NextResponse.json(hotel, { status: 201 });
+    } catch (error) {
+        console.error('Error creating hotel:', error);
+        return NextResponse.json(
+            { error: 'Failed to create hotel' },
+            { status: 500 }
+        );
+    }
+}

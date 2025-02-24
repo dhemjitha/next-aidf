@@ -54,7 +54,11 @@ function Navigation() {
                     </Button>
                 </SignedOut>
                 <SignedIn>
-                    <UserButton />
+                    <UserButton appearance={{
+                        elements: {
+                            rootBox: "w-full text-center"
+                        }
+                    }} />
                 </SignedIn>
 
             </div>
@@ -83,7 +87,11 @@ function Navigation() {
                         </Button>
                     </SignedOut>
                     <SignedIn>
-                        <UserButton />
+                        <UserButton appearance={{
+                            elements: {
+                                rootBox: "w-full items-center justify-center flex"
+                            }
+                        }} />
                     </SignedIn>
                 </div>
             )}
