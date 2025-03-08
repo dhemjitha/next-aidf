@@ -76,7 +76,7 @@ export default async function HotelPage({ params }: PageProps) {
                     </div>
                 </div>
 
-                {/* Details Section */}
+
                 <div className="space-y-6">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                         <div>
@@ -94,15 +94,15 @@ export default async function HotelPage({ params }: PageProps) {
 
                     <div className="flex items-center space-x-1">
                         <Star className="h-5 w-5 fill-primary text-primary" />
-                        <span className="font-bold">{hotel.rating}</span>
+                        <span className="font-bold">{hotel?.rating ?? "No Ratings"}</span>
                         <span className="text-muted-foreground">
-                            ({hotel.reviews.toLocaleString()} reviews)
+                            ({hotel.reviews?.toLocaleString() ?? "No"} reviews)
                         </span>
                     </div>
 
                     <p className="text-muted-foreground text-sm md:text-base">{hotel.description}</p>
 
-                    {/* Amenities Section */}
+
                     <Card>
                             <CardContent className="p-4">
                                 <h2 className="text-xl font-semibold mb-4">Amenities</h2>
@@ -127,7 +127,7 @@ export default async function HotelPage({ params }: PageProps) {
                             </CardContent>
                         </Card>
 
-                    {/* Price & Booking Section */}
+
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div>
                             <p className="text-xl md:text-2xl font-bold">${hotel.price}</p>

@@ -21,25 +21,25 @@ function Navigation() {
                     Horizone
                 </Link>
 
-                {/* Desktop Menu */}
+
                 <div className="hidden md:flex space-x-6">
                     <Link href="/" className="transition-colors hover:text-gray-400">
                         Home
                     </Link>
-                    <Link href="/hotels" className="transition-colors hover:text-gray-400">
-                        Hotels
+                    <Link href="/hotels/create" className="transition-colors hover:text-gray-400">
+                        Create Hotel
                     </Link>
                 </div>
             </div>
 
-            {/* Toggle Button for Mobile */}
+ 
             <div className="md:hidden">
                 <button onClick={toggleMenu}>
                     {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 </button>
             </div>
 
-            {/* Desktop Buttons */}
+
             <div className="hidden md:flex items-center space-x-4">
                 <Button variant="ghost">
                     <Globe className="h-5 w-5 mr-2" />
@@ -59,19 +59,22 @@ function Navigation() {
                             rootBox: "w-full text-center"
                         }
                     }} />
+                    <Button asChild>
+                        <Link href="/account">My Account</Link>
+                    </Button>
                 </SignedIn>
 
             </div>
 
-            {/* Mobile Menu */}
+
             {isOpen && (
                 <div className="lg:hidden absolute top-16 left-0 right-0 flex flex-col bg-black p-4 z-50">
                     <Link href="/" onClick={toggleMenu} className="hover:text-gray-400 flex items-center justify-center py-3">
                         Home
                     </Link>
 
-                    <Link href="/hotels" onClick={toggleMenu} className="hover:text-gray-400 flex items-center justify-center py-3 mb-2">
-                        Hotels
+                    <Link href="/hotels/create" onClick={toggleMenu} className="hover:text-gray-400 flex items-center justify-center py-3 mb-2">
+                        Create Hotel
                     </Link>
 
                     <Button variant="ghost" className="mb-3" onClick={toggleMenu}>
@@ -89,9 +92,12 @@ function Navigation() {
                     <SignedIn>
                         <UserButton appearance={{
                             elements: {
-                                rootBox: "w-full items-center justify-center flex"
+                                rootBox: "w-full items-center justify-center flex mt-4 mb-4"
                             }
                         }} />
+                        <Button asChild onClick={toggleMenu}>
+                            <Link href="/account">My Account</Link>
+                        </Button>
                     </SignedIn>
                 </div>
             )}
