@@ -1,4 +1,4 @@
-
+import { Button } from "./ui/button"
 
 function BookingButton () {
     return (
