@@ -5,6 +5,7 @@ import { Button } from './ui/button'
 import { Globe, Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { useUser } from '@clerk/nextjs'
 
 
 function Navigation() {
@@ -13,6 +14,8 @@ function Navigation() {
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
+
+    const { user } = useUser();
 
     return (
         <nav className="z-50 bg-black flex items-center justify-between px-8 text-white py-4">
@@ -26,13 +29,13 @@ function Navigation() {
                     <Link href="/" className="transition-colors hover:text-gray-400">
                         Home
                     </Link>
-                    <Link href="/hotels/create" className="transition-colors hover:text-gray-400">
+                    {user?.publicMetadata?.role == "admin" && (<Link href="/hotels/create" className="transition-colors hover:text-gray-400">
                         Create Hotel
-                    </Link>
+                    </Link>)}
                 </div>
             </div>
 
- 
+
             <div className="md:hidden">
                 <button onClick={toggleMenu}>
                     {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -73,9 +76,9 @@ function Navigation() {
                         Home
                     </Link>
 
-                    <Link href="/hotels/create" onClick={toggleMenu} className="hover:text-gray-400 flex items-center justify-center py-3 mb-2">
+                    {user?.publicMetadata?.role == "admin" && (<Link href="/hotels/create" onClick={toggleMenu} className="hover:text-gray-400 flex items-center justify-center py-3 mb-2">
                         Create Hotel
-                    </Link>
+                    </Link>)}
 
                     <Button variant="ghost" className="mb-3" onClick={toggleMenu}>
                         <Globe className="h-5 w-5 mr-2" />
