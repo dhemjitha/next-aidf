@@ -18,7 +18,8 @@ export async function POST(req: Request) {
             );
         }
 
-        const user = req.auth;
+        const user = req.headers.get('Authorization') ? JSON.parse(req.headers.get('Authorization')!) : null;
+        
         if (!user || !user.userId) {
             return NextResponse.json(
                 { error: 'Authentication required', details: 'User is not authenticated' },
