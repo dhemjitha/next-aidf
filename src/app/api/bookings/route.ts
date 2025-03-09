@@ -1,10 +1,20 @@
 import { CreateBookingDTO } from "@/server/domain/dtos/booking";
 import Booking from "../../../server/infrastructure/schemas/Booking";
 import { NextResponse } from "next/server";
-
+import { auth } from "@clerk/nextjs/server";
 
 export async function POST(req: Request) {
     try {
+        const authResult = await auth();
+        const userId = authResult.userId;
+        
+        if (!userId) {
+            return NextResponse.json(
+                { error: 'Authentication required', details: 'User is not authenticated' },
+                { status: 401 }
+            );
+        }
+
         const requestBody = await req.json();
 
         const booking = CreateBookingDTO.safeParse(requestBody);
@@ -13,29 +23,20 @@ export async function POST(req: Request) {
             console.error('Validation Errors:', booking.error.errors);
 
             return NextResponse.json(
-                { error: 'Invalid Hotel Data', details: booking.error.errors },
+                { error: 'Invalid Booking Data', details: booking.error.errors },
                 { status: 400 }
-            );
-        }
-
-        const user = req.headers.get('Authorization') ? JSON.parse(req.headers.get('Authorization')!) : null;
-        
-        if (!user || !user.userId) {
-            return NextResponse.json(
-                { error: 'Authentication required', details: 'User is not authenticated' },
-                { status: 401 }
             );
         }
 
         await Booking.create({
             hotelId: booking.data.hotelId,
-            userId: user.userId,
+            userId: userId,
             checkIn: booking.data.checkIn,
             checkOut: booking.data.checkOut,
             roomNumber: booking.data.roomNumber,
         });
 
-        return NextResponse.json({ status: 201 });
+        return NextResponse.json({ status: 201, message: 'Booking created successfully' });
 
     } catch (error: unknown) {
         console.error('Error creating booking:', error);
@@ -45,9 +46,6 @@ export async function POST(req: Request) {
         );
     }
 }
-
-
-
 
 export async function GET() {
     try {

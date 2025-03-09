@@ -1,3 +1,4 @@
+import BookingButton from "@/components/BookingButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -133,7 +134,7 @@ export default async function HotelPage({ params }: PageProps) {
                             <p className="text-xl md:text-2xl font-bold">${hotel.price}</p>
                             <p className="text-sm text-muted-foreground">per night</p>
                         </div>
-                        <Button size="lg" className="w-full sm:w-auto">Book Now</Button>
+                        <BookingButton price={hotel.price} />
                     </div>
                 </div>
             </div>
