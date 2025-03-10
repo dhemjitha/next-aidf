@@ -24,11 +24,13 @@ const BookingButton: React.FC<BookingButtonProps> = ({ price }) => {
     const { id } = useParams();
     const router = useRouter();
     const { userId } = useAuth();
+
     const [isLoading, setIsLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [checkInDate, setCheckInDate] = useState(new Date());
     const [checkOutDate, setCheckOutDate] = useState(addDays(new Date(), 1));
     const [roomNumber, setRoomNumber] = useState(201);
+
     const [isCreateBookingLoading, setIsCreateBookingLoading] = useState(false);
     const [isCheckInCalendarOpen, setIsCheckInCalendarOpen] = useState(false);
     const [isCheckOutCalendarOpen, setIsCheckOutCalendarOpen] = useState(false);
@@ -38,11 +40,11 @@ const BookingButton: React.FC<BookingButtonProps> = ({ price }) => {
         const checkIfMobile = () => {
             setIsMobile(window.innerWidth < 768);
         };
-        
+
         checkIfMobile();
-        
+
         window.addEventListener('resize', checkIfMobile);
-        
+
         return () => window.removeEventListener('resize', checkIfMobile);
     }, []);
 
@@ -101,7 +103,13 @@ const BookingButton: React.FC<BookingButtonProps> = ({ price }) => {
 
     return (
         <div>
-            <Button size="lg" onClick={handleBookingClick}>Book Now</Button>
+            <Button
+                className="w-full lg:w-auto"
+                onClick={handleBookingClick}
+            >
+                Book Now
+            </Button>
+
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="sm:max-w-[425px]">
