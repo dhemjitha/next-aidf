@@ -2,9 +2,11 @@ import { CreateBookingDTO } from "@/server/domain/dtos/booking";
 import Booking from "../../../server/infrastructure/schemas/Booking";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import connectDB from "@/server/infrastructure/db";
 
 export async function POST(req: Request) {
     try {
+        await connectDB();
         const authResult = await auth();
         const userId = authResult.userId;
         
@@ -49,6 +51,7 @@ export async function POST(req: Request) {
 
 export async function GET() {
     try {
+        await connectDB();
         const bookings = await Booking.find();
         return NextResponse.json(bookings, { status: 200 });
     } catch (error: unknown) {

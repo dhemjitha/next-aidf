@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 import Booking from "@/server/infrastructure/schemas/Booking";
+import connectDB from "@/server/infrastructure/db";
 
 export async function GET() {
   try {
+    await connectDB();
     const user = await currentUser();
 
     if (!user || !user.id) {
@@ -29,6 +31,7 @@ export async function GET() {
 
 export async function DELETE(request: Request) {
   try {
+    await connectDB();
     const user = await currentUser();
 
     if (!user || !user.id) {
