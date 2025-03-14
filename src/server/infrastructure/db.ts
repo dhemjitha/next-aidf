@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Hotel from "./schemas/Hotel";
+import Booking from "./schemas/Booking";
 
 const connectDB = async () => {
     try {
