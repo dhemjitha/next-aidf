@@ -7,6 +7,7 @@ import connectDB from "@/server/infrastructure/db";
 export async function GET() {
   try {
     await connectDB();
+    await Hotel.exists({});
     const user = await currentUser();
 
     if (!user || !user.id) {
