@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
+import Hotel from "@/server/infrastructure/schemas/Hotel";
 import Booking from "@/server/infrastructure/schemas/Booking";
 import connectDB from "@/server/infrastructure/db";
 
