@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 
 export default function HotelBookingGrid() {
   return (
-    <div className="mx-auto px-8 py-8 lg:py-16">
+    <div className="px-5 py-8 lg:py-16">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-6">
           <div className="relative rounded-3xl overflow-hidden h-[300px]">
