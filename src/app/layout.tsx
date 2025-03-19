@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner"
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
           <Navigation />
           {children}
           <Toaster />
+          <Footer/>
         </body>
       </html>
     </ClerkProvider>
