@@ -2,7 +2,7 @@ import { Instagram, Twitter, Facebook, MessageCircle } from "lucide-react";
 import Link from "next/link";
 
 function Footer() {
-    const aboutMenu = [
+    const about = [
         {
             title: "About Us",
             link: "/about",
@@ -16,7 +16,7 @@ function Footer() {
             link: "/career",
         },
     ];
-    const supportMenu = [
+    const support = [
         {  
             title: "Contact Us",
             link: "/contact",
@@ -49,7 +49,7 @@ function Footer() {
 						<h3 className="text-lg font-semibold text-gray-900">About</h3>
 						<ul className="space-y-2">
                             {
-                                aboutMenu.map((item, index) => {
+                                about.map((item, index) => {
                                     return (
                                         <li key={index}>
                                             <Link
@@ -68,7 +68,7 @@ function Footer() {
 						<h3 className="text-lg font-semibold text-gray-900">Support</h3>
 						<ul className="space-y-2">
 							{
-                                supportMenu.map((item, index) => {
+                                support.map((item, index) => {
                                     return (
                                         <li key={index}>
                                             <Link
