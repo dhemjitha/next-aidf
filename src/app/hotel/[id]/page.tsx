@@ -57,7 +57,7 @@ export default async function HotelPage({ params }: PageProps) {
         const hotel = await getHotel(id);
 
         return (
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-4 py-8 min-h-screen">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Image & Tags Section */}
                 <div className="space-y-4">

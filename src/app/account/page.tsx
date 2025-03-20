@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
 import { format } from "date-fns";
-import { CalendarIcon, MapPinIcon, BedIcon, StarIcon, Bookmark, AlertCircle } from "lucide-react";
+import { CalendarIcon, MapPinIcon, BedIcon, StarIcon, Bookmark, AlertCircle, User, Mail } from "lucide-react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -17,6 +17,7 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function AccountPage() {
     const { isLoaded, isSignedIn, user } = useUser();
@@ -86,35 +87,93 @@ export default function AccountPage() {
     if (!isLoaded) {
         return (
             <main className="container mx-auto px-4 py-8 min-h-screen">
-                <h1 className="text-3xl md:text-4xl font-bold">My Account</h1>
-                <div className="mt-8">
-                    <h2 className="text-xl md:text-2xl font-semibold mb-4">
-                        Personal Information
-                    </h2>
-                    <div className="grid md:grid-cols-2 gap-8">
-                        <div className="space-y-4">
-                            <Skeleton className="h-6 w-48 rounded-md bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300 animate-pulse" />
-                            <Skeleton className="h-6 w-64 rounded-md bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300 animate-pulse" />
+                <div>
+                    <div className="py-12">
+                        <div className="container mx-auto">
+                            <h1 className="text-3xl md:text-4xl font-bold">My Account</h1>
+                            <p className="mt-2">Loading your profile...</p>
                         </div>
                     </div>
+                    <div className="container mx-auto -mt-6">
+                        <Card className="mb-8">
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <User className="h-5 w-5" />
+                                    Personal Information
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="flex items-center gap-3">
+                                        <div className="bg-blue-100 p-3 rounded-full">
+                                            <User className="h-5 w-5" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-gray-500">Full Name</p>
+                                            <Skeleton className="w-32 h-4 bg-gray-300 rounded" />
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="bg-blue-100 p-3 rounded-full">
+                                            <Mail className="h-5 w-5" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-gray-500">Email Address</p>
+                                            <Skeleton className="w-40 h-4 bg-gray-300 rounded" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+
                 </div>
             </main>
         );
     }
 
+
     return (
         <main className="container mx-auto px-4 py-8 min-h-screen">
-            <h1 className="text-3xl md:text-4xl font-bold">My Account</h1>
-
-            <div className="mt-8">
-                <h2 className="text-xl md:text-2xl font-semibold mb-4">
-                    Personal Information
-                </h2>
-                <div className="grid md:grid-cols-2 gap-8">
-                    <div className="space-y-4">
-                        <p className="text-muted-foreground">Name: {user?.fullName}</p>
-                        <p className="text-muted-foreground">Email: {user?.emailAddresses[0].emailAddress}</p>
+            <div>
+                <div className="py-12">
+                    <div className="container mx-auto">
+                        <h1 className="text-3xl md:text-4xl font-bold">My Account</h1>
+                        <p className="mt-2">Welcome back, {user?.firstName || 'Guest'} !</p>
                     </div>
+                </div>
+
+                <div className="container mx-auto -mt-6">
+                    <Card className="mb-8">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <User className="h-5 w-5" />
+                                Personal Information
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-blue-100 p-3 rounded-full">
+                                        <User className="h-5 w-5" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-gray-500">Full Name</p>
+                                        <p className="font-medium">{user?.fullName}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-blue-100 p-3 rounded-full">
+                                        <Mail className="h-5 w-5" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-gray-500">Email Address</p>
+                                        <p className="font-medium">{user?.emailAddresses[0].emailAddress}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
 
