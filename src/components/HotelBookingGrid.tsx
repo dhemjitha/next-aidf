@@ -44,7 +44,7 @@ export default function HotelBookingGrid() {
             />
             <div className="absolute inset-0 bg-gradient-to-b flex flex-col justify-end p-8">
               <div className="text-white space-y-2">
-                <p className="text-white/80 text-lg">Hotels Available</p>
+                <p className="text-white text-lg font-semibold">Hotels Available</p>
                 <h3 className="text-4xl md:text-5xl font-bold">1,764,980</h3>
               </div>
             </div>
