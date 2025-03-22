@@ -29,7 +29,6 @@ function HotelListings() {
     const [isError, setIsError] = useState(false);
     const [error, setError] = useState("");
     
-    // Use the search context
     const { searchQuery, isSearching, setIsSearching } = useSearchContext();
 
     const locations = ["ALL", "France", "Italy", "Australia", "Japan"]
@@ -39,7 +38,6 @@ function HotelListings() {
         setSelectedLocation(location);
     }
 
-    // Filter hotels based on selected location
     const filteredItems = selectedLocation === "ALL" 
         ? (isSearching ? searchResults : hotels.map(hotel => ({ hotel, confidence: 1 }))) 
         : (isSearching 
@@ -111,7 +109,6 @@ function HotelListings() {
         }
     }
 
-    // Render loading skeleton
     if (loading) {
         return (
             <section className="px-5 py-6 lg:py-16">
@@ -151,7 +148,6 @@ function HotelListings() {
         );
     }
 
-    // Render error message
     if (isError) {
         return (
             <section className="px-5 py-6 lg:py-16">
@@ -178,7 +174,6 @@ function HotelListings() {
         );
     }
 
-    // Render hotel listings
     return (
         <section className="px-5 py-6 lg:py-16">
             <div className="mb-12">
