@@ -3,10 +3,12 @@ import { OpenAIEmbeddings } from "@langchain/openai";
 import { MongoDBAtlasVectorSearch } from "@langchain/mongodb";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
+import connectDB from "@/server/infrastructure/db";
 
 export async function GET(req: Request) {
     try {
-
+        
+        await connectDB();
         const url = new URL(req.url);
         const query = url.searchParams.get('query');
 
