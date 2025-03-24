@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Button } from './ui/button'
-import { ChevronDown, Menu, X } from 'lucide-react'
+import { ChevronDown, Globe, Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { useUser } from '@clerk/nextjs'
@@ -43,8 +43,12 @@ function Navigation() {
             </div>
 
             <div className="hidden md:flex items-center space-x-4">
+                <Button variant="ghost">
+                    <Globe className="h-5 w-5 mr-2" />
+                    EN
+                </Button>
                 <SignedOut>
-                    <Button variant="ghost" asChild className="text-gray-600 hover:text-gray-800">
+                    <Button variant="ghost" asChild>
                         <Link href="/sign-in">Login</Link>
                     </Button>
                     <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm">
@@ -73,7 +77,12 @@ function Navigation() {
                             Create Hotel
                         </Link>
                     )}
-                    
+
+                    <Button variant="ghost" className="mb-3" onClick={toggleMenu}>
+                        <Globe className="h-5 w-5 mr-2" />
+                        EN
+                    </Button>
+
                     <SignedOut>
                         <Button variant="ghost" asChild className="mb-3 text-gray-600" onClick={toggleMenu}>
                             <Link href="/sign-in">Login</Link>
