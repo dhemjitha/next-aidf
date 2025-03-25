@@ -2,7 +2,7 @@
 
 Horizone is an innovative hotel booking platform powered by AI, designed to enhance the search and booking experience. By leveraging OpenAI's LLM, the platform enables users to input hotel preferences and receive personalized recommendations. This project aims to simplify and personalize hotel selection, making it easier for users to find the best options based on their unique needs.
 
-![](https://pub-a68d0c01397443d094d3236b5e9b30cf.r2.dev/portfolio-images/0e374b6d471c9e3a6be4c952a8cd635580c9ee30276959d3853904be258e3e65.jpg?versionId=7e6a3674ef861070f0c001783e01c03b)---
+![](https://pub-a68d0c01397443d094d3236b5e9b30cf.r2.dev/portfolio-images/0e374b6d471c9e3a6be4c952a8cd635580c9ee30276959d3853904be258e3e65.jpg?versionId=7e6a3674ef861070f0c001783e01c03b)
 
 # 🤔 Problem space
 
@@ -214,9 +214,13 @@ The core design concept for **Horizone** is centered on simplicity, clarity, and
 
 The architecture of **Horizone** is designed as a **Client-Server Model**, separating concerns between the frontend, backend, and database components. The **frontend**, built with **Next.js** and **TypeScript**, provides a seamless user interface with dynamic rendering. The **backend** is powered by **Next.js API routes** for handling business logic and **MongoDB** as the database. **Clerk** is integrated for authentication. This separation ensures scalability, maintainability, and performance, making it a robust full-stack solution for managing hotel bookings and reservations.
 
-![](https://pub-a68d0c01397443d094d3236b5e9b30cf.r2.dev/portfolio-images/20ba47552bc30318ec6a157b3b188d7b89857ced3a125de6623082877e3f0f08.jpg?versionId=7e6a361cfb9fd3b06c26a1d563da625c)## Entity-Extended Relationship Diagram
+![](https://pub-a68d0c01397443d094d3236b5e9b30cf.r2.dev/portfolio-images/20ba47552bc30318ec6a157b3b188d7b89857ced3a125de6623082877e3f0f08.jpg?versionId=7e6a361cfb9fd3b06c26a1d563da625c)
 
-![](https://pub-a68d0c01397443d094d3236b5e9b30cf.r2.dev/portfolio-images/f1d155419d20e8c0302da5ab668ad94a2227ccaf0563ddd8fbc383e4ec176d81.jpg?versionId=7e6a36189d3bbb3b26b93d490445d39e)## Key Features of the Software
+## Entity-Extended Relationship Diagram
+
+![](https://pub-a68d0c01397443d094d3236b5e9b30cf.r2.dev/portfolio-images/f1d155419d20e8c0302da5ab668ad94a2227ccaf0563ddd8fbc383e4ec176d81.jpg?versionId=7e6a36189d3bbb3b26b93d490445d39e)
+
+## Key Features of the Software
 
   **Hotel Booking System**
 
