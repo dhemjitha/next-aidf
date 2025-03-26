@@ -35,4 +35,3 @@ export function useSearchContext() {
   }
   return context
 }
-
