@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { Sparkles, MapPin, Plane, Compass } from 'lucide-react'
+import { Sparkles } from "lucide-react"
 import { useSearchContext } from "@/context/SearchContext"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Input } from "./ui/input"
@@ -29,6 +29,15 @@ function Hero() {
     if (values.search.trim() !== "") {
       setIsSearching(true)
       setSearchQuery(values.search)
+
+      // Scroll to the hotel listings section
+      const hotelListingsElement = document.getElementById("hotel-listings")
+      if (hotelListingsElement) {
+        hotelListingsElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        })
+      }
     }
   }
 
@@ -88,7 +97,6 @@ function Hero() {
           </p>
         </div>
 
-
         <div className="w-full md:w-1/2 relative">
           <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] mx-auto">
             <div className="absolute left-[5%] top-[5%] w-[45%] h-[45%] rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:scale-105 z-10">
@@ -131,3 +139,4 @@ function Hero() {
 }
 
 export default Hero
+
