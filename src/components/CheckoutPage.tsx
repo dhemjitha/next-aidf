@@ -97,7 +97,7 @@ const CheckoutPage = ({ amount, onSuccessfulPayment }: CheckoutProps) => {
     <form onSubmit={handleSubmit} className="bg-white p-2 rounded-md">
       {clientSecret && <PaymentElement />}
 
-      {errorMessage && <div>{errorMessage}</div>}
+      {errorMessage && <div className="flex items-center justify-center text-red-500 mt-2 text-sm font-bold">{errorMessage}</div>}
 
       <Button
         disabled={!stripe || loading}
