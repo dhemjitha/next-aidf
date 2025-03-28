@@ -13,8 +13,8 @@ export default function PaymentSuccess({
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-50">
-            <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md text-center">
+        <div className="flex items-center justify-center min-h-screen">
+            <div className="w-full max-w-md p-8 bg-white rounded-lg text-center">
                 <div className="flex justify-center mb-4">
                     <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center">
                         <svg
