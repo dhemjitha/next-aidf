@@ -63,42 +63,26 @@ const BookingButton: React.FC<BookingButtonProps> = ({ price }) => {
         setIsCheckOutCalendarOpen(true);
     }
 
-    const handleConfirmBooking = async () => {
+    const handleProceedToCheckout = () => {
         if (!userId) {
             toast.error("Please sign in to book a room");
             router.push("/sign-in");
             return;
         }
 
-        try {
-            setIsCreateBookingLoading(true);
+        const bookingDetails = {
+            hotelId: id,
+            checkIn: checkInDate.toISOString(),
+            checkOut: checkOutDate.toISOString(),
+            roomNumber,
+            nights,
+            totalPrice
+        };
 
-            const response = await fetch('/api/bookings', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    hotelId: id,
-                    checkIn: checkInDate.toISOString(),
-                    checkOut: checkOutDate.toISOString(),
-                    roomNumber: roomNumber,
-                }),
-            });
+        // Send booking details to the server or handle it as needed (Complex Data)
+        const encodedBookingDetails = btoa(JSON.stringify(bookingDetails));
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to create booking');
-            }
-
-            toast.success('Booking created successfully!');
-            setIsDialogOpen(false);
-        } catch (error) {
-            console.error('Booking error:', error);
-            toast.error(error instanceof Error ? error.message : 'Failed to create booking');
-        } finally {
-            setIsCreateBookingLoading(false);
-        }
+        router.push(`/checkout?price=${totalPrice}&booking=${encodedBookingDetails}`);
     };
 
     return (
@@ -168,11 +152,8 @@ const BookingButton: React.FC<BookingButtonProps> = ({ price }) => {
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button
-                            onClick={handleConfirmBooking}
-                            disabled={isCreateBookingLoading}
-                        >
-                            {isCreateBookingLoading ? "Booking..." : "Confirm Booking"}
+                    <Button onClick={handleProceedToCheckout}>
+                            Proceed to Checkout
                         </Button>
                     </DialogFooter>
                 </DialogContent>
