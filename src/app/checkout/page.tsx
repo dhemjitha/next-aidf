@@ -1,5 +1,7 @@
 "use client"
 
+export const dynamic = 'force-dynamic';
+
 import { useSearchParams, useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import CheckoutPage from "@/components/CheckoutPage"
@@ -10,11 +12,9 @@ import { useAuth } from "@clerk/nextjs"
 import { toast } from "sonner"
 import { CalendarDays, CreditCard, Hotel } from "lucide-react"
 
-if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
-  throw new Error("Missing Stripe publishable key in environment variables")
-}
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+  : null
 
 export default function Checkout() {
   const router = useRouter()
@@ -62,6 +62,14 @@ export default function Checkout() {
 
     validateCheckoutAccess()
   }, [encodedBookingDetails, amount, userId, router])
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      const price = searchParams.get("price");
+
+    }
+  }, []);
 
   const handleSuccessfulBooking = async () => {
     if (!bookingDetails || !userId) {
