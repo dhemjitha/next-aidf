@@ -1,16 +1,15 @@
 "use client"
 
-export const dynamic = 'force-dynamic';
-
-import { useSearchParams, useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
-import CheckoutPage from "@/components/CheckoutPage"
-import convertToSubcurrency from "@/lib/convertToSubcurrency"
+import { useSearchParams, useRouter } from "next/navigation"
+import { useAuth } from "@clerk/nextjs"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
-import { useAuth } from "@clerk/nextjs"
 import { toast } from "sonner"
 import { CalendarDays, CreditCard, Hotel } from "lucide-react"
+
+import CheckoutPage from "@/components/CheckoutPage"
+import convertToSubcurrency from "@/lib/convertToSubcurrency"
 
 const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
@@ -20,17 +19,24 @@ export default function Checkout() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { userId } = useAuth()
+  
   const [amount, setAmount] = useState(0)
   const [encodedBookingDetails, setEncodedBookingDetails] = useState<string | null>(null)
   const [bookingDetails, setBookingDetails] = useState<any>(null)
   const [isValidPage, setIsValidPage] = useState(true)
 
   useEffect(() => {
-    // Client-side only validation and setup
+    // Client-side validation and setup
     const price = searchParams.get("price")
     const bookingParam = searchParams.get("booking")
     
-    setAmount(Number.parseFloat(price || "0"))
+    if (!price || !bookingParam) {
+      toast.error("Invalid booking details")
+      router.push("/")
+      return
+    }
+
+    setAmount(Number.parseFloat(price))
     setEncodedBookingDetails(bookingParam)
 
     const validateCheckoutAccess = () => {
@@ -41,33 +47,26 @@ export default function Checkout() {
         return false
       }
 
-      if (!bookingParam) {
-        toast.error("No booking details found")
-        router.push("/")
-        setIsValidPage(false)
-        return false
-      }
-
-      if (Number.parseFloat(price || "0") <= 0) {
+      if (Number.parseFloat(price) <= 0) {
         toast.error("Invalid booking amount")
         router.push("/")
         setIsValidPage(false)
         return false
       }
+
+      return true
     }
 
-    if (bookingParam) {
-      try {
-        const decodedDetails = JSON.parse(atob(bookingParam))
-        setBookingDetails(decodedDetails)
-        console.log("Booking details:", decodedDetails)
-      } catch (error) {
-        toast.error("Failed to decode booking details")
-        console.error(error)
-      }
+    try {
+      const decodedDetails = JSON.parse(atob(bookingParam))
+      setBookingDetails(decodedDetails)
+      
+      validateCheckoutAccess()
+    } catch (error) {
+      toast.error("Failed to decode booking details")
+      console.error(error)
+      router.push("/")
     }
-
-    validateCheckoutAccess()
   }, [searchParams, userId, router])
 
   const handleSuccessfulBooking = async () => {
@@ -90,6 +89,7 @@ export default function Checkout() {
 
       if (response.ok) {
         toast.success("Booking created successfully")
+        router.push("/bookings")
       } else {
         toast.error("Failed to create booking")
       }
@@ -160,7 +160,7 @@ export default function Checkout() {
             <p className="text-gray-600 text-sm md:text-base">Complete your secure payment</p>
           </div>
 
-          {stripePromise && (
+          {stripePromise && bookingDetails && (
             <Elements
               stripe={stripePromise}
               options={{
@@ -169,7 +169,10 @@ export default function Checkout() {
                 currency: "usd",
               }}
             >
-              <CheckoutPage amount={amount} onSuccessfulPayment={handleSuccessfulBooking} />
+              <CheckoutPage 
+                amount={amount} 
+                onSuccessfulPayment={handleSuccessfulBooking} 
+              />
             </Elements>
           )}
         </div>
