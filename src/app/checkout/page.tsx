@@ -20,12 +20,19 @@ export default function Checkout() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { userId } = useAuth()
-  const amount = Number.parseFloat(searchParams.get("price") || "0")
-  const encodedBookingDetails = searchParams.get("booking")
+  const [amount, setAmount] = useState(0)
+  const [encodedBookingDetails, setEncodedBookingDetails] = useState<string | null>(null)
   const [bookingDetails, setBookingDetails] = useState<any>(null)
   const [isValidPage, setIsValidPage] = useState(true)
 
   useEffect(() => {
+    // Client-side only validation and setup
+    const price = searchParams.get("price")
+    const bookingParam = searchParams.get("booking")
+    
+    setAmount(Number.parseFloat(price || "0"))
+    setEncodedBookingDetails(bookingParam)
+
     const validateCheckoutAccess = () => {
       if (!userId) {
         toast.error("Please log in to proceed")
@@ -34,14 +41,14 @@ export default function Checkout() {
         return false
       }
 
-      if (!encodedBookingDetails) {
+      if (!bookingParam) {
         toast.error("No booking details found")
         router.push("/")
         setIsValidPage(false)
         return false
       }
 
-      if (amount <= 0) {
+      if (Number.parseFloat(price || "0") <= 0) {
         toast.error("Invalid booking amount")
         router.push("/")
         setIsValidPage(false)
@@ -49,9 +56,9 @@ export default function Checkout() {
       }
     }
 
-    if (encodedBookingDetails) {
+    if (bookingParam) {
       try {
-        const decodedDetails = JSON.parse(atob(encodedBookingDetails))
+        const decodedDetails = JSON.parse(atob(bookingParam))
         setBookingDetails(decodedDetails)
         console.log("Booking details:", decodedDetails)
       } catch (error) {
@@ -61,15 +68,7 @@ export default function Checkout() {
     }
 
     validateCheckoutAccess()
-  }, [encodedBookingDetails, amount, userId, router])
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const searchParams = new URLSearchParams(window.location.search);
-      const price = searchParams.get("price");
-
-    }
-  }, []);
+  }, [searchParams, userId, router])
 
   const handleSuccessfulBooking = async () => {
     if (!bookingDetails || !userId) {
@@ -116,7 +115,7 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 md:p-6">
-      <div className="w-full  rounded-xl overflow-hidden flex flex-col md:flex-row">
+      <div className="w-full rounded-xl overflow-hidden flex flex-col md:flex-row">
         {/* Left Column - Booking Details */}
         <div className="w-full md:w-1/2 bg-gray-50 p-6 md:p-8 space-y-6">
           <div className="text-center">
@@ -161,16 +160,18 @@ export default function Checkout() {
             <p className="text-gray-600 text-sm md:text-base">Complete your secure payment</p>
           </div>
 
-          <Elements
-            stripe={stripePromise}
-            options={{
-              mode: "payment",
-              amount: convertToSubcurrency(amount),
-              currency: "usd",
-            }}
-          >
-            <CheckoutPage amount={amount} onSuccessfulPayment={handleSuccessfulBooking} />
-          </Elements>
+          {stripePromise && (
+            <Elements
+              stripe={stripePromise}
+              options={{
+                mode: "payment",
+                amount: convertToSubcurrency(amount),
+                currency: "usd",
+              }}
+            >
+              <CheckoutPage amount={amount} onSuccessfulPayment={handleSuccessfulBooking} />
+            </Elements>
+          )}
         </div>
       </div>
     </div>
