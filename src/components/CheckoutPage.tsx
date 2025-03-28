@@ -8,6 +8,7 @@ import {
 } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
 import { useRouter } from "next/navigation";
+import { Button } from "./ui/button";
 
 interface CheckoutProps {
   amount: number;
@@ -98,12 +99,12 @@ const CheckoutPage = ({ amount, onSuccessfulPayment }: CheckoutProps) => {
 
       {errorMessage && <div>{errorMessage}</div>}
 
-      <button
+      <Button
         disabled={!stripe || loading}
-        className="text-white w-full p-5 bg-black mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse"
+        className="text-white w-full bg-black mt-5 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse"
       >
         {!loading ? `Pay $${amount}` : "Processing..."}
-      </button>
+      </Button>
     </form>
   );
 };
