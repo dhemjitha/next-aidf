@@ -1,3 +1,4 @@
+import { ConfettiFireworks } from "@/components/magicui/ConfettiFireworks";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -11,6 +12,8 @@ export default function PaymentSuccess({
     if (!amount) {
         redirect('/');
     }
+
+
 
     return (
         <div className="flex items-center justify-center min-h-screen">
@@ -58,6 +61,8 @@ export default function PaymentSuccess({
                         dhemjitha@gmail.com
                     </Link>
                 </div>
+
+                <ConfettiFireworks />
 
                 <Button asChild className="w-full">
                     <Link href="/">Return to Home</Link>
