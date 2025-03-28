@@ -19,7 +19,7 @@ function CheckoutContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { userId } = useAuth()
-  
+
   const price = searchParams.get("price")
   const bookingParam = searchParams.get("booking")
 
@@ -84,60 +84,60 @@ function CheckoutContent() {
       <div className="w-full rounded-xl overflow-hidden flex flex-col md:flex-row">
         {/* Left Column - Booking Details */}
         <div className="w-full md:w-1/2 bg-white p-6 md:p-8">
-  <div className="max-w-md mx-auto">
-    <div className="text-center mb-6">
-      <div className="inline-flex items-center gap-2 mb-2">
-        <h2 className="text-2xl font-bold text-gray-800">
-        <span className="text-gray-800 font-bold">Hori</span>
-        <span className="text-blue-500 font-bold">zone</span>
-        </h2>
-      </div>
-      <p className="text-gray-500">Booking Summary</p>
-    </div>
+          <div className="max-w-md mx-auto">
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center gap-2 mb-2">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  <span className="text-gray-800 font-bold">Hori</span>
+                  <span className="text-blue-500 font-bold">zone</span>
+                </h2>
+              </div>
+              <p className="text-gray-500">Booking Summary</p>
+            </div>
 
-    {bookingDetails && (
-      <div className="bg-gray-50 rounded-xl p-6 space-y-4">
-        <div className="flex items-center gap-3 mb-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
-            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
-            <line x1="16" x2="16" y1="2" y2="6"/>
-            <line x1="8" x2="8" y1="2" y2="6"/>
-            <line x1="3" x2="21" y1="10" y2="10"/>
-            <path d="M8 14h.01"/>
-            <path d="M12 14h.01"/>
-            <path d="M16 14h.01"/>
-            <path d="M8 18h.01"/>
-            <path d="M12 18h.01"/>
-            <path d="M16 18h.01"/>
-          </svg>
-          <h3 className="text-xl font-semibold text-gray-700">Trip Details</h3>
+            {bookingDetails && (
+              <div className="bg-gray-50 rounded-xl p-6 space-y-4">
+                <div className="flex items-center gap-3 mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
+                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+                    <line x1="16" x2="16" y1="2" y2="6" />
+                    <line x1="8" x2="8" y1="2" y2="6" />
+                    <line x1="3" x2="21" y1="10" y2="10" />
+                    <path d="M8 14h.01" />
+                    <path d="M12 14h.01" />
+                    <path d="M16 14h.01" />
+                    <path d="M8 18h.01" />
+                    <path d="M12 18h.01" />
+                    <path d="M16 18h.01" />
+                  </svg>
+                  <h3 className="text-xl font-semibold text-gray-700">Trip Details</h3>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="text-gray-500">Check-In:</span>
+                    <span className="font-medium text-gray-800">{formatDate(bookingDetails.checkIn)}</span>
+                  </div>
+
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="text-gray-500">Check-Out:</span>
+                    <span className="font-medium text-gray-800">{formatDate(bookingDetails.checkOut)}</span>
+                  </div>
+
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="text-gray-500">Nights:</span>
+                    <span className="font-medium text-gray-800">{bookingDetails.nights}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Total Amount:</span>
+                    <span className="font-bold text-blue-600 text-xl">${amount.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-
-        <div className="space-y-3">
-          <div className="flex justify-between border-b pb-2">
-            <span className="text-gray-500">Check-In:</span>
-            <span className="font-medium text-gray-800">{formatDate(bookingDetails.checkIn)}</span>
-          </div>
-
-          <div className="flex justify-between border-b pb-2">
-            <span className="text-gray-500">Check-Out:</span>
-            <span className="font-medium text-gray-800">{formatDate(bookingDetails.checkOut)}</span>
-          </div>
-
-          <div className="flex justify-between border-b pb-2">
-            <span className="text-gray-500">Nights:</span>
-            <span className="font-medium text-gray-800">{bookingDetails.nights}</span>
-          </div>
-
-          <div className="flex justify-between">
-            <span className="text-gray-500">Total Amount:</span>
-            <span className="font-bold text-blue-600 text-xl">${amount.toFixed(2)}</span>
-          </div>
-        </div>
-      </div>
-    )}
-  </div>
-</div>
 
         {/* Right Column - Payment Information */}
         <div className="w-full md:w-1/2 p-6 md:p-8 bg-white">
@@ -158,9 +158,9 @@ function CheckoutContent() {
                 currency: "usd",
               }}
             >
-              <CheckoutPage 
-                amount={amount} 
-                onSuccessfulPayment={handleSuccessfulBooking} 
+              <CheckoutPage
+                amount={amount}
+                onSuccessfulPayment={handleSuccessfulBooking}
               />
             </Elements>
           )}
