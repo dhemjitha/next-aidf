@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { useAuth } from "@clerk/nextjs"
 import { Elements } from "@stripe/react-stripe-js"
@@ -15,59 +15,38 @@ const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
   : null
 
-export default function Checkout() {
+function CheckoutContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { userId } = useAuth()
   
-  const [amount, setAmount] = useState(0)
-  const [encodedBookingDetails, setEncodedBookingDetails] = useState<string | null>(null)
-  const [bookingDetails, setBookingDetails] = useState<any>(null)
-  const [isValidPage, setIsValidPage] = useState(true)
+  const price = searchParams.get("price")
+  const bookingParam = searchParams.get("booking")
 
-  useEffect(() => {
-    // Client-side validation and setup
-    const price = searchParams.get("price")
-    const bookingParam = searchParams.get("booking")
-    
-    if (!price || !bookingParam) {
-      toast.error("Invalid booking details")
-      router.push("/")
-      return
-    }
+  if (!price || !bookingParam) {
+    router.push("/")
+    return null
+  }
 
-    setAmount(Number.parseFloat(price))
-    setEncodedBookingDetails(bookingParam)
+  const amount = Number.parseFloat(price)
+  let bookingDetails = null
 
-    const validateCheckoutAccess = () => {
-      if (!userId) {
-        toast.error("Please log in to proceed")
-        router.push("/sign-in")
-        setIsValidPage(false)
-        return false
-      }
+  try {
+    bookingDetails = JSON.parse(atob(bookingParam))
+  } catch (error) {
+    toast.error("Failed to decode booking details")
+    router.push("/")
+    return null
+  }
 
-      if (Number.parseFloat(price) <= 0) {
-        toast.error("Invalid booking amount")
-        router.push("/")
-        setIsValidPage(false)
-        return false
-      }
-
-      return true
-    }
-
-    try {
-      const decodedDetails = JSON.parse(atob(bookingParam))
-      setBookingDetails(decodedDetails)
-      
-      validateCheckoutAccess()
-    } catch (error) {
-      toast.error("Failed to decode booking details")
-      console.error(error)
-      router.push("/")
-    }
-  }, [searchParams, userId, router])
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
+  }
 
   const handleSuccessfulBooking = async () => {
     if (!bookingDetails || !userId) {
@@ -98,19 +77,6 @@ export default function Checkout() {
       router.push("/")
       console.error(error)
     }
-  }
-
-  if (!isValidPage) {
-    return null
-  }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    })
   }
 
   return (
@@ -178,5 +144,13 @@ export default function Checkout() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function Checkout() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CheckoutContent />
+    </Suspense>
   )
 }
