@@ -48,6 +48,9 @@ export default function CheckoutPage() {
 
         const data = await response.json()
         setClientSecret(data.clientSecret)
+
+        
+
       } catch (err: any) {
         console.error("Error creating checkout session:", err)
         setError(err.message || "Something went wrong")

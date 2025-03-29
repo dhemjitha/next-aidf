@@ -4,9 +4,9 @@ import { useState, useEffect } from "react"
 import HotelCard from "./HotelCard"
 import LocationTab from "./LocationTab"
 import { Skeleton } from "./ui/skeleton"
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert"
-import { AlertCircle } from "lucide-react"
+import { AlertCircle, Search } from "lucide-react"
 import { useSearchContext } from "@/context/SearchContext"
+import { Input } from "./ui/input"
 
 type Hotel = {
   _id: string
@@ -36,27 +36,52 @@ function HotelListings() {
   const locations = ["ALL", "France", "Italy", "Australia", "Japan"]
   const [selectedLocation, setSelectedLocation] = useState("ALL")
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+
+
   const handleSelectLocation = (location: string) => {
     setSelectedLocation(location)
   }
 
-  const filteredItems =
-    selectedLocation === "ALL"
-      ? isSearching
-        ? searchResults
-        : hotels.map((hotel) => ({ hotel, confidence: 1 }))
-      : isSearching
-        ? searchResults.filter((item) => item.hotel.location.toLowerCase().includes(selectedLocation.toLowerCase()))
-        : hotels
-            .filter((hotel) => hotel.location.toLowerCase().includes(selectedLocation.toLowerCase()))
-            .map((hotel) => ({ hotel, confidence: 1 }))
+  const getBaseHotels = () => {
+    if (isSearching) {
+      return searchResults
+    } else {
+      return hotels.map((hotel) => ({
+        hotel,
+        confidence: 1,
+      }))
+    }
+  }
 
-  // Effect to fetch hotels on initial load
+  const getFilteredHotels = () => {
+    let hotels = getBaseHotels();
+
+    if (selectedLocation !== "ALL") {
+      hotels = hotels.filter((hotel) => hotel.hotel.location.toLowerCase().includes(selectedLocation.toLowerCase()))
+    }
+    if (searchTerm.trim() !== "") {
+      hotels = hotels.filter((hotel) =>
+        hotel.hotel.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+    return hotels;
+  }
+
+  const filteredHotels = getFilteredHotels()
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+
   useEffect(() => {
     if (!isSearching) {
       fetchHotels()
     }
   }, [isSearching])
+
 
   // Effect to perform search when searchQuery changes
   useEffect(() => {
@@ -65,6 +90,7 @@ function HotelListings() {
       getHotelsForSearchQuery(searchQuery)
     }
   }, [searchQuery, isSearching])
+
 
   // Function to get hotels based on search query
   const getHotelsForSearchQuery = async (query: string) => {
@@ -95,7 +121,7 @@ function HotelListings() {
     }
   }
 
-  // Function to fetch all hotels
+
   async function fetchHotels() {
     setLoading(true)
     try {
@@ -167,11 +193,32 @@ function HotelListings() {
           </p>
         </div>
 
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>Error while fetching data...</AlertDescription>
-        </Alert>
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 md:p-6  mx-auto">
+          <div className="flex items-start space-x-4">
+            <div className="bg-red-100 rounded-full p-2 mt-1">
+              <AlertCircle className="h-5 w-5 text-red-600" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-red-700 mb-1">Unable to load hotels</h3>
+              <p className="text-red-600 mb-3">We encountered a problem while fetching data from our servers.</p>
+              <div className="flex flex-wrap gap-3 mt-2">
+                <button
+                  type="button"
+                  onClick={() => fetchHotels()}
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  Try again
+                </button>
+                <button
+                  type="button"
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  Contact support
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     )
   }
@@ -193,6 +240,7 @@ function HotelListings() {
           <button
             onClick={() => {
               setIsSearching(false)
+              setSearchTerm('')
             }}
             className="mt-4 text-blue-600 hover:underline"
           >
@@ -200,6 +248,29 @@ function HotelListings() {
           </button>
         )}
       </div>
+
+      <div className="relative w-full max-w-md mx-auto md:mx-0 mb-8">
+        <div className="flex items-center w-full rounded-lg border border-input shadow-sm focus-within:ring-2 focus-within:ring-blue-400 focus-within:border-blue-400 bg-white overflow-hidden">
+          <Search className="h-5 w-5 text-muted-foreground ml-3 flex-shrink-0" />
+          <Input
+            placeholder="Search hotels by name..."
+            value={searchTerm}
+            onChange={handleSearch}
+            className="pl-2 border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+          />
+        </div>
+        {searchTerm && (
+          <button
+            type="button"
+            onClick={() => setSearchTerm('')}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-500 hover:text-gray-700"
+          >
+            Clear
+          </button>
+        )}
+      </div>
+
+
 
       {!isSearching && (
         <div className="flex items-center lg:gap-x-2 gap-x-1.5">
@@ -214,15 +285,27 @@ function HotelListings() {
         </div>
       )}
 
-      {filteredItems.length > 0 ? (
+
+      {filteredHotels.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4 cursor-pointer">
-          {filteredItems.map((item) => (
-            <HotelCard key={item.hotel._id} hotel={item.hotel} confidence={item.confidence} />
+          {filteredHotels.map((hotel) => (
+            <HotelCard key={hotel.hotel._id} hotel={hotel.hotel} confidence={hotel.confidence} />
           ))}
         </div>
       ) : (
-        <div className="text-center py-12">
-          <p className="text-lg">No hotels found matching your criteria.</p>
+        <div className="text-center py-16 px-4">
+          <div className="max-w-md mx-auto">
+            <div className="mb-6">
+              <Search className="h-12 w-12 mx-auto text-gray-300" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">No hotels found</h3>
+            <p className="text-gray-500 mb-6">
+              We couldn't find any hotels matching your current search criteria.
+            </p>
+            <div className="text-sm text-gray-600">
+              Try adjusting your search or filters to find more options.
+            </div>
+          </div>
         </div>
       )}
     </section>
@@ -230,4 +313,3 @@ function HotelListings() {
 }
 
 export default HotelListings
-

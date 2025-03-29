@@ -1,16 +1,20 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Loader2, CheckCircle, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ConfettiFireworks } from "@/components/magicui/ConfettiFireworks"
+import { toast } from "sonner"
+import { useAuth } from "@clerk/nextjs"
 
 export default function ConfirmationPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading")
   const [bookingDetails, setBookingDetails] = useState<any>(null)
+  const { userId } = useAuth()
+  const isBookingCreated = useRef(false);
 
   useEffect(() => {
     const checkSessionStatus = async () => {
@@ -36,6 +40,7 @@ export default function ConfirmationPage() {
         } else {
           setStatus("error")
         }
+        
       } catch (error) {
         console.error("Error checking session status:", error)
         setStatus("error")
@@ -44,6 +49,43 @@ export default function ConfirmationPage() {
 
     checkSessionStatus()
   }, [searchParams])
+
+  useEffect(() => {
+
+    const handleCreateBooking = async () => {
+      try {
+        const sanitizedBookingDetails = {
+          ...bookingDetails,
+          roomNumber: Number(bookingDetails.roomNumber),
+        };
+
+        const response = await fetch("/api/bookings", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...sanitizedBookingDetails,
+            userId,
+          }),
+        });
+
+        if (response.ok) {
+          toast.success("Booking created successfully");
+        } else {
+          toast.error("Failed to create booking");
+        }
+      } catch (error) {
+        toast.error("Failed to create booking");
+        console.error(error);
+      }
+    };
+
+    if (status === "success" && bookingDetails && !isBookingCreated.current) {
+      isBookingCreated.current = true;
+      handleCreateBooking();
+    }
+  }, [status, bookingDetails]);
 
   return (
     <div className="max-w-2xl mx-auto p-6 flex flex-col items-center justify-center min-h-screen h-screen">
