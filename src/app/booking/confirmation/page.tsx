@@ -85,7 +85,7 @@ export default function ConfirmationPage() {
       isBookingCreated.current = true;
       handleCreateBooking();
     }
-  }, [status, bookingDetails]);
+  }, [status, bookingDetails, userId]);
 
   return (
     <div className="max-w-2xl mx-auto p-6 flex flex-col items-center justify-center min-h-screen h-screen">

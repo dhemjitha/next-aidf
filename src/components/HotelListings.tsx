@@ -300,7 +300,7 @@ function HotelListings() {
             </div>
             <h3 className="text-xl font-semibold mb-2">No hotels found</h3>
             <p className="text-gray-500 mb-6">
-              We couldn't find any hotels matching your current search criteria.
+              We couldn&apos;t find any hotels matching your current search criteria.
             </p>
             <div className="text-sm text-gray-600">
               Try adjusting your search or filters to find more options.
