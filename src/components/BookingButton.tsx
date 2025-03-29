@@ -1,221 +1,214 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
-import { Button } from "./ui/button";
-import { useParams, useRouter } from 'next/navigation';
-import { useAuth } from '@clerk/nextjs';
-import { toast } from 'sonner';
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter
-} from "@/components/ui/dialog";
-import { Calendar } from "@/components/ui/calendar";
-import { format, addDays } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
+import type React from "react"
+import { useState, useEffect } from "react"
+import { Button } from "./ui/button"
+import { useParams, useRouter } from "next/navigation"
+import { useAuth } from "@clerk/nextjs"
+import { toast } from "sonner"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Calendar } from "@/components/ui/calendar"
+import { format, addDays } from "date-fns"
+import { CalendarIcon } from "lucide-react"
 
 interface BookingButtonProps {
-    price: number;
+  price: number
 }
 
 const BookingButton: React.FC<BookingButtonProps> = ({ price }) => {
-    const { id } = useParams();
-    const router = useRouter();
-    const { userId } = useAuth();
+  const { id } = useParams()
+  const router = useRouter()
+  const { userId } = useAuth()
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [checkInDate, setCheckInDate] = useState(new Date());
-    const [checkOutDate, setCheckOutDate] = useState(addDays(new Date(), 1));
-    const [roomNumber, setRoomNumber] = useState(201);
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [checkInDate, setCheckInDate] = useState(new Date())
+  const [checkOutDate, setCheckOutDate] = useState(addDays(new Date(), 1))
+  const [roomNumber, setRoomNumber] = useState(0);
 
-    const [isCreateBookingLoading, setIsCreateBookingLoading] = useState(false);
-    const [isCheckInCalendarOpen, setIsCheckInCalendarOpen] = useState(false);
-    const [isCheckOutCalendarOpen, setIsCheckOutCalendarOpen] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
+  const [isCheckInCalendarOpen, setIsCheckInCalendarOpen] = useState(false)
+  const [isCheckOutCalendarOpen, setIsCheckOutCalendarOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
-    useEffect(() => {
-        const checkIfMobile = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-
-        checkIfMobile();
-
-        window.addEventListener('resize', checkIfMobile);
-
-        return () => window.removeEventListener('resize', checkIfMobile);
-    }, []);
-
-    const nights = Math.ceil((checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24));
-    const totalPrice = price * nights;
-
-    const handleBookingClick = () => {
-        setIsDialogOpen(true);
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768)
     }
 
-    const handleCheckInClick = () => {
-        setIsCheckInCalendarOpen(true);
+    checkIfMobile()
+
+    window.addEventListener("resize", checkIfMobile)
+
+    return () => window.removeEventListener("resize", checkIfMobile)
+  }, [])
+
+  useEffect(() => {
+    const randomNum = Math.floor(Math.random() * 1000) + 1;
+    setRoomNumber(randomNum);
+  }, []);
+
+  const nights = Math.ceil((checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24))
+  const totalPrice = price * nights
+
+  const handleBookingClick = () => {
+    setIsDialogOpen(true)
+  }
+
+  const handleCheckInClick = () => {
+    setIsCheckInCalendarOpen(true)
+  }
+
+  const handleCheckOutClick = () => {
+    setIsCheckOutCalendarOpen(true)
+  }
+
+  const handleProceedToCheckout = () => {
+    if (!userId) {
+      toast.error("Please sign in to book a room")
+      router.push("/sign-in")
+      return
     }
 
-    const handleCheckOutClick = () => {
-        setIsCheckOutCalendarOpen(true);
+    const bookingDetails = {
+      hotelId: id,
+      checkIn: checkInDate.toISOString(),
+      checkOut: checkOutDate.toISOString(),
+      roomNumber,
+      nights,
+      totalPrice,
     }
 
-    const handleProceedToCheckout = () => {
-        if (!userId) {
-            toast.error("Please sign in to book a room");
-            router.push("/sign-in");
-            return;
-        }
+    // Send booking details to the server or handle it as needed (Complex Data)
+    const encodedBookingDetails = btoa(JSON.stringify(bookingDetails))
 
-        const bookingDetails = {
-            hotelId: id,
-            checkIn: checkInDate.toISOString(),
-            checkOut: checkOutDate.toISOString(),
-            roomNumber,
-            nights,
-            totalPrice
-        };
+    router.push(`/checkout?price=${totalPrice}&booking=${encodedBookingDetails}`)
+  }
 
-        // Send booking details to the server or handle it as needed (Complex Data)
-        const encodedBookingDetails = btoa(JSON.stringify(bookingDetails));
+  return (
+    <div>
+      <Button className="w-full lg:w-auto" onClick={handleBookingClick}>
+        Book Now
+      </Button>
 
-        router.push(`/checkout?price=${totalPrice}&booking=${encodedBookingDetails}`);
-    };
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Book Your Stay</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col space-y-2">
+                <label htmlFor="check-in" className="text-sm font-medium">
+                  Check-in
+                </label>
+                <Button
+                  id="check-in"
+                  variant="outline"
+                  className="w-full justify-start text-left font-normal"
+                  onClick={handleCheckInClick}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {checkInDate ? format(checkInDate, "PPP") : "Select date"}
+                </Button>
+              </div>
 
-    return (
-        <div>
-            <Button
-                className="w-full lg:w-auto"
-                onClick={handleBookingClick}
-            >
-                Book Now
-            </Button>
+              <div className="flex flex-col space-y-2">
+                <label htmlFor="check-out" className="text-sm font-medium">
+                  Check-out
+                </label>
+                <Button
+                  id="check-out"
+                  variant="outline"
+                  className="w-full justify-start text-left font-normal"
+                  onClick={handleCheckOutClick}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {checkOutDate ? format(checkOutDate, "PPP") : "Select date"}
+                </Button>
+              </div>
+            </div>
 
+            <div className="mt-4 space-y-2">
+              <h3 className="font-medium">Stay Summary</h3>
+              <div className="text-sm">
+                <div className="flex justify-between">
+                  <span>Price per night:</span>
+                  <span>${price}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Nights:</span>
+                  <span>{nights}</span>
+                </div>
+                <div className="flex justify-between font-medium mt-2 pt-2 border-t">
+                  <span>Total:</span>
+                  <span>${totalPrice}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={handleProceedToCheckout}>Proceed to Checkout</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>Book Your Stay</DialogTitle>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="flex flex-col space-y-2">
-                                <label htmlFor="check-in" className="text-sm font-medium">
-                                    Check-in
-                                </label>
-                                <Button
-                                    id="check-in"
-                                    variant="outline"
-                                    className="w-full justify-start text-left font-normal"
-                                    onClick={handleCheckInClick}
-                                >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {checkInDate ? format(checkInDate, "PPP") : "Select date"}
-                                </Button>
-                            </div>
+      <Dialog open={isCheckInCalendarOpen} onOpenChange={setIsCheckInCalendarOpen}>
+        <DialogContent className="sm:max-w-[350px] p-0">
+          <DialogHeader className="p-4 pb-0">
+            <DialogTitle>Select Check-in Date</DialogTitle>
+          </DialogHeader>
+          <div className="p-4">
+            <Calendar
+              mode="single"
+              selected={checkInDate}
+              onSelect={(date) => {
+                if (date) {
+                  setCheckInDate(date)
+                  setIsCheckInCalendarOpen(false)
 
-                            <div className="flex flex-col space-y-2">
-                                <label htmlFor="check-out" className="text-sm font-medium">
-                                    Check-out
-                                </label>
-                                <Button
-                                    id="check-out"
-                                    variant="outline"
-                                    className="w-full justify-start text-left font-normal"
-                                    onClick={handleCheckOutClick}
-                                >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {checkOutDate ? format(checkOutDate, "PPP") : "Select date"}
-                                </Button>
-                            </div>
-                        </div>
+                  if (date >= checkOutDate) {
+                    setCheckOutDate(addDays(date, 1))
+                  }
+                }
+              }}
+              disabled={(date) => date < new Date()}
+              initialFocus
+              className="rounded-md border"
+            />
+          </div>
+          <DialogFooter className="px-4 pb-4">
+            <Button onClick={() => setIsCheckInCalendarOpen(false)}>Done</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
-                        <div className="mt-4 space-y-2">
-                            <h3 className="font-medium">Stay Summary</h3>
-                            <div className="text-sm">
-                                <div className="flex justify-between">
-                                    <span>Price per night:</span>
-                                    <span>${price}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>Nights:</span>
-                                    <span>{nights}</span>
-                                </div>
-                                <div className="flex justify-between font-medium mt-2 pt-2 border-t">
-                                    <span>Total:</span>
-                                    <span>${totalPrice}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <DialogFooter>
-                    <Button onClick={handleProceedToCheckout}>
-                            Proceed to Checkout
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+      <Dialog open={isCheckOutCalendarOpen} onOpenChange={setIsCheckOutCalendarOpen}>
+        <DialogContent className="sm:max-w-[350px] p-0">
+          <DialogHeader className="p-4 pb-0">
+            <DialogTitle>Select Check-out Date</DialogTitle>
+          </DialogHeader>
+          <div className="p-4">
+            <Calendar
+              mode="single"
+              selected={checkOutDate}
+              onSelect={(date) => {
+                if (date) {
+                  setCheckOutDate(date)
+                  setIsCheckOutCalendarOpen(false)
+                }
+              }}
+              disabled={(date) => date <= checkInDate || date < new Date()}
+              initialFocus
+              className="rounded-md border"
+            />
+          </div>
+          <DialogFooter className="px-4 pb-4">
+            <Button onClick={() => setIsCheckOutCalendarOpen(false)}>Done</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}
 
-            <Dialog open={isCheckInCalendarOpen} onOpenChange={setIsCheckInCalendarOpen}>
-                <DialogContent className="sm:max-w-[350px] p-0">
-                    <DialogHeader className="p-4 pb-0">
-                        <DialogTitle>Select Check-in Date</DialogTitle>
-                    </DialogHeader>
-                    <div className="p-4">
-                        <Calendar
-                            mode="single"
-                            selected={checkInDate}
-                            onSelect={(date) => {
-                                if (date) {
-                                    setCheckInDate(date);
-                                    setIsCheckInCalendarOpen(false);
+export default BookingButton
 
-                                    if (date >= checkOutDate) {
-                                        setCheckOutDate(addDays(date, 1));
-                                    }
-                                }
-                            }}
-                            disabled={(date) => date < new Date()}
-                            initialFocus
-                            className="rounded-md border"
-                        />
-                    </div>
-                    <DialogFooter className="px-4 pb-4">
-                        <Button onClick={() => setIsCheckInCalendarOpen(false)}>Done</Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
-
-            <Dialog open={isCheckOutCalendarOpen} onOpenChange={setIsCheckOutCalendarOpen}>
-                <DialogContent className="sm:max-w-[350px] p-0">
-                    <DialogHeader className="p-4 pb-0">
-                        <DialogTitle>Select Check-out Date</DialogTitle>
-                    </DialogHeader>
-                    <div className="p-4">
-                        <Calendar
-                            mode="single"
-                            selected={checkOutDate}
-                            onSelect={(date) => {
-                                if (date) {
-                                    setCheckOutDate(date);
-                                    setIsCheckOutCalendarOpen(false);
-                                }
-                            }}
-                            disabled={(date) => date <= checkInDate || date < new Date()}
-                            initialFocus
-                            className="rounded-md border"
-                        />
-                    </div>
-                    <DialogFooter className="px-4 pb-4">
-                        <Button onClick={() => setIsCheckOutCalendarOpen(false)}>Done</Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
-        </div>
-    );
-};
-
-export default BookingButton;
