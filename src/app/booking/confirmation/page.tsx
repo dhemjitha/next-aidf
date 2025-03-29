@@ -67,7 +67,7 @@ export default function ConfirmationPage() {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Room:</span>
-                  <span className="font-medium">#{bookingDetails.name}</span>
+                  <span className="font-medium">#{bookingDetails.roomNumber}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Check-in:</span>
