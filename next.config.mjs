@@ -3,7 +3,8 @@ const nextConfig = {
   images: {
     domains: [
       'cf.bstatic.com',
-      'images.unsplash.com'
+      'images.unsplash.com',
+      'echoinnovateit.com'
     ],
   },
 };

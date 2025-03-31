@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 
 export default function AccountPage() {
     const { isLoaded, isSignedIn, user } = useUser();
@@ -210,11 +211,14 @@ export default function AccountPage() {
                                     {/* Hotel Image Section */}
                                     <div className="md:w-1/3 h-48 md:h-auto relative">
                                         {booking.hotelId?.image ? (
-                                            <img
-                                                src={booking.hotelId.image}
-                                                alt={booking.hotelId?.name || 'Hotel'}
-                                                className="w-full h-full object-cover"
-                                            />
+                                            <Image
+                                            src={booking.hotelId.image}
+                                            alt={booking.hotelId?.name || 'Hotel'}
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, 33vw"
+                                            className="object-cover"
+                                            priority={false}
+                                        />
                                         ) : (
                                             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                                                 <ImageIcon className="w-12 h-12 text-gray-400" />
@@ -223,9 +227,12 @@ export default function AccountPage() {
                                         <div className="absolute top-4 left-4">
                                             <span className={`px-3 py-1 rounded-full text-sm font-medium ${new Date(booking.checkOut) < new Date()
                                                 ? 'bg-gray-800 text-white'
-                                                : 'bg-green-500 text-white'
+                                                : 'bg-blue-500 text-white'
                                                 }`}>
                                                 {new Date(booking.checkOut) < new Date() ? 'Completed' : 'Upcoming'}
+                                            </span>
+                                            <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-500 text-white ml-2">
+                                                Paid
                                             </span>
                                         </div>
                                     </div>
