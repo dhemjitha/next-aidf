@@ -288,7 +288,7 @@ export default function AccountPage() {
 
                                         <div className="mt-6 pt-4 border-t border-gray-100 flex flex-col sm:flex-row sm:justify-between sm:items-center">
                                             <div>
-                                                <p className="text-2xl font-bold text-gray-800">${booking.hotelId?.price?.toFixed(2) || '0.00'}</p>
+                                                <p className="text-2xl font-bold text-gray-800">${booking.amount?.toFixed(2) || '0.00'}</p>
                                                 <p className="text-xs text-gray-500">
                                                     Booking ID: <span className="font-mono">{booking._id}</span>
                                                 </p>

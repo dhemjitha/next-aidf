@@ -52,6 +52,7 @@ export async function POST(req: Request) {
         checkIn: bookingDetails.checkIn,
         checkOut: bookingDetails.checkOut,
         nights: bookingDetails.nights.toString(),
+        amount: amount.toString(),
       },
       return_url: `${process.env.NEXT_PUBLIC_API_URL}/booking/confirmation?session_id={CHECKOUT_SESSION_ID}`,
     })

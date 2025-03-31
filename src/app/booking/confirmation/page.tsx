@@ -56,6 +56,7 @@ export default function ConfirmationPage() {
         const sanitizedBookingDetails = {
           ...bookingDetails,
           roomNumber: Number(bookingDetails.roomNumber),
+          amount: Number(bookingDetails.amount),
         }
 
         const response = await fetch("/api/bookings", {

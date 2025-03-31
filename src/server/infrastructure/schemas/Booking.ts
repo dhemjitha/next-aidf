@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Hotel from "./Hotel";
 
 const bookingSchema = new mongoose.Schema({
     hotelId: {
@@ -20,6 +19,10 @@ const bookingSchema = new mongoose.Schema({
         required: true,
     },
     roomNumber: {
+        type: Number,
+        required: true,
+    },
+    amount: {
         type: Number,
         required: true,
     },

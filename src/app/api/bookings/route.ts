@@ -36,6 +36,7 @@ export async function POST(req: Request) {
             checkIn: booking.data.checkIn,
             checkOut: booking.data.checkOut,
             roomNumber: booking.data.roomNumber,
+            amount: booking.data.amount,
         });
 
         return NextResponse.json({ status: 201, message: 'Booking created successfully' });
