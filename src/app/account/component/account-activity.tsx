@@ -7,7 +7,7 @@ interface AccountActivityProps {
 
 export default function AccountActivity({ bookingsCount }: AccountActivityProps) {
   return (
-    <Card className="mb-8 border-none shadow-md hover:shadow-lg transition-shadow duration-300">
+    <Card className="mb-8 rounded shadow-sm hover:shadow-md transition-shadow duration-300">
       <CardHeader className="border-b bg-gray-50">
         <CardTitle className="flex items-center gap-2 text-gray-800">
           <Activity className="h-5 w-5 text-blue-500" />

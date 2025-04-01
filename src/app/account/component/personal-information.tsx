@@ -11,7 +11,7 @@ interface PersonalInformationProps {
 export default function PersonalInformation({ isLoading, user }: PersonalInformationProps) {
   if (isLoading) {
     return (
-      <Card className="mb-8 overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
+      <Card className="mb-8 overflow-hidden rounded border hover:shadow-md transition-all duration-300">
         <CardHeader className="bg-gradient-to-r from-blue-500 to-blue-600 pb-12 relative">
           <CardTitle className="text-white flex items-center gap-2">
             <User className="h-5 w-5" />
@@ -63,7 +63,7 @@ export default function PersonalInformation({ isLoading, user }: PersonalInforma
   }
 
   return (
-    <Card className="mb-8 overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
+    <Card className="mb-8 overflow-hidden rounded border hover:shadow-md transition-all duration-300">
       <CardHeader className="bg-gradient-to-r from-blue-500 to-blue-600 pb-12 relative">
         <CardTitle className="text-white flex items-center gap-2">
           <User className="h-5 w-5" />
