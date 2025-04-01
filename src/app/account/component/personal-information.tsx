@@ -89,7 +89,7 @@ export default function PersonalInformation({ isLoading, user }: PersonalInforma
             <div className="flex-1">
               <p className="text-sm font-medium text-gray-500">Email Address</p>
               <div className="flex items-center">
-                <p className="text-gray-800">{user?.emailAddresses[0]?.emailAddress || "Not provided"}</p>
+                <p className="text-gray-800 text-sm">{user?.emailAddresses[0]?.emailAddress || "Not provided"}</p>
                 {user?.emailAddresses[0]?.verification?.status === "verified" && (
                   <span className="ml-2 flex items-center text-green-600 text-xs">
                     <CheckCircle className="h-3 w-3 mr-1" />
