@@ -66,7 +66,7 @@ export default function AccountHeader({ isLoading, user }: AccountHeaderProps) {
               <Settings className="h-4 w-4" />
               Edit Profile
             </Button>
-            <Button size="sm" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 shadow-sm">
+            <Button size="sm" variant="blue" className="flex items-center gap-2 shadow-sm">
               <CreditCard className="h-4 w-4" />
               Manage Payments
             </Button>

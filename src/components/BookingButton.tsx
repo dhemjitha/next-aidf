@@ -85,7 +85,7 @@ const BookingButton: React.FC<BookingButtonProps> = ({ price }) => {
 
   return (
     <div>
-      <Button className="w-full lg:w-auto" onClick={handleBookingClick}>
+      <Button className="w-full lg:w-auto" variant="blue" onClick={handleBookingClick}>
         Book Now
       </Button>
 
@@ -146,7 +146,7 @@ const BookingButton: React.FC<BookingButtonProps> = ({ price }) => {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={handleProceedToCheckout}>Proceed to Checkout</Button>
+            <Button variant="blue" onClick={handleProceedToCheckout}>Proceed to Checkout</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -176,7 +176,7 @@ const BookingButton: React.FC<BookingButtonProps> = ({ price }) => {
             />
           </div>
           <DialogFooter className="px-4 pb-4">
-            <Button onClick={() => setIsCheckInCalendarOpen(false)}>Done</Button>
+            <Button variant="blue" onClick={() => setIsCheckInCalendarOpen(false)}>Done</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -202,7 +202,7 @@ const BookingButton: React.FC<BookingButtonProps> = ({ price }) => {
             />
           </div>
           <DialogFooter className="px-4 pb-4">
-            <Button onClick={() => setIsCheckOutCalendarOpen(false)}>Done</Button>
+            <Button variant="blue" onClick={() => setIsCheckOutCalendarOpen(false)}>Done</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

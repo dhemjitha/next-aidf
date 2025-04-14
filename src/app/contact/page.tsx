@@ -141,7 +141,7 @@ const Contact = () => {
                     </div>
                     <h3 className="text-2xl font-bold mb-3">Message Sent!</h3>
                     <p className="text-slate-600 mb-8">Thank you for reaching out. We&apos;ll get back to you soon.</p>
-                    <Button variant="outline" onClick={() => setSubmitSuccess(false)} className="px-6">
+                    <Button variant="blueOutline" onClick={() => setSubmitSuccess(false)} className="px-6">
                       Send another message
                     </Button>
                   </div>
@@ -225,7 +225,8 @@ const Contact = () => {
                       <div className="pt-2">
                         <Button
                           type="submit"
-                          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-6"
+                          variant="blue"
+                          className="w-full text-white py-6"
                           disabled={isSubmitting}
                         >
                           {isSubmitting ? (

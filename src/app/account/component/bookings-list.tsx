@@ -58,7 +58,7 @@ export default function BookingsList({ bookings, isLoading, error, onCancelBooki
         <p className="text-gray-500 max-w-md mx-auto mb-6">
           You haven&apos;t made any bookings yet. Start exploring hotels to book your next adventure.
         </p>
-        <Button variant="outline" className="border-blue-200 hover:bg-blue-50 text-blue-600">
+        <Button variant="blueOutline" className="text-blue-600">
           <Link href="/#hotel-listings" className="flex items-center">
             <Search className="w-4 h-4 mr-2" />
             Browse Hotels

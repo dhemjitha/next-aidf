@@ -134,7 +134,7 @@ export default function ConfirmationPage() {
             </div>
           )}
           <ConfettiFireworks />
-          <Button onClick={() => router.push("/")}>Return to Home</Button>
+          <Button variant="blue" onClick={() => router.push("/")}>Return to Home</Button>
         </div>
       )}
 
@@ -145,7 +145,7 @@ export default function ConfirmationPage() {
           <p className="text-muted-foreground mb-8">
             We couldn&apos;t verify your payment. If you believe this is an error, please contact customer support.
           </p>
-          <Button onClick={() => router.push("/")}>Return to Home</Button>
+          <Button variant="blue" onClick={() => router.push("/")}>Return to Home</Button>
         </div>
       )}
     </div>

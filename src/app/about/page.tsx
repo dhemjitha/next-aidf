@@ -40,7 +40,7 @@ const About = () => {
                   preferences and receive highly personalized hotel recommendations that match their unique needs.
                 </p>
                 <div className="pt-4">
-                  <Button className="bg-blue-500 hover:bg-blue-600 text-white">
+                  <Button variant="blue" className="text-white">
                     Start Your Journey
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>

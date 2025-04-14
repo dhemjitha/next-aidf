@@ -192,7 +192,8 @@ const CreateHotelForm = () => {
                             <CardFooter className="flex justify-end px-0 pb-0 pt-6">
                                 <Button 
                                     type="submit" 
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md transition-colors"
+                                    variant="blue"
+                                    className="text-white px-6 py-2 rounded-md transition-colors"
                                 >
                                     Create Hotel
                                 </Button>

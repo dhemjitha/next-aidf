@@ -51,7 +51,7 @@ function Navigation() {
                     <Button variant="ghost" asChild>
                         <Link href="/sign-in">Login</Link>
                     </Button>
-                    <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm">
+                    <Button asChild variant="blue" className="text-white px-4 py-2 rounded-lg text-sm">
                         <Link href="/sign-up">Sign up</Link>
                     </Button>
                 </SignedOut>
@@ -61,7 +61,7 @@ function Navigation() {
                             rootBox: "w-full text-center"
                         }
                     }} />
-                    <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm">
+                    <Button asChild variant="blue" className="text-white px-4 py-2 rounded-lg text-sm">
                         <Link href="/account">My Account</Link>
                     </Button>
                 </SignedIn>
@@ -87,7 +87,7 @@ function Navigation() {
                         <Button variant="ghost" asChild className="mb-3 text-gray-600" onClick={toggleMenu}>
                             <Link href="/sign-in">Login</Link>
                         </Button>
-                        <Button asChild onClick={toggleMenu} className="bg-gray-900 hover:bg-gray-800 text-white">
+                        <Button asChild onClick={toggleMenu} variant="blue" className="text-white">
                             <Link href="/sign-up">Sign up</Link>
                         </Button>
                     </SignedOut>
@@ -97,7 +97,7 @@ function Navigation() {
                                 rootBox: "w-full items-center justify-center flex mt-4 mb-4"
                             }
                         }} />
-                        <Button asChild onClick={toggleMenu} className="bg-gray-900 hover:bg-gray-800 text-white">
+                        <Button asChild onClick={toggleMenu} variant="blue" className="text-white">
                             <Link href="/account">My Account</Link>
                         </Button>
                     </SignedIn>
